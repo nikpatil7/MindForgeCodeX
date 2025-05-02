@@ -19,26 +19,26 @@ const LearningLanguageSection = () => {
           Using spin making learning multiple languages easy. with 20+ languages realistic voice-over, progress tracking, custom schedule and more.
         </div>
 
-        <div className='flex flex-col lg:flex-row items-center justify-center mt-5 lg:mt-8 gap-4 sm:gap-0'>
-          <div className='relative lg:-mr-32 order-1 lg:order-none'>
+        <div className='flex flex-col lg:flex-row items-center justify-center mt-5 lg:mt-8'>
+          <div className='-mr-8 sm:-mr-16 lg:-mr-32 transform hover:scale-105 transition-all'>
             <img 
               src={know_your_progress}
               alt="KnowYourProgressImage"
-              className='object-contain w-full max-w-[280px] sm:max-w-none'
+              className='object-contain w-full max-w-[200px] sm:max-w-[240px] lg:max-w-none'
             />
           </div>
-          <div className='relative order-3 lg:order-none'>
+          <div className='transform hover:scale-105 transition-all z-10'>
             <img 
               src={compare_with_others}
               alt="CompareWithOthersImage"
-              className='object-contain w-full max-w-[280px] sm:max-w-none'
+              className='object-contain w-full max-w-[220px] sm:max-w-[260px] lg:max-w-none'
             />
           </div>
-          <div className='relative lg:-ml-32 order-2 lg:order-none'>
+          <div className='-ml-8 sm:-ml-16 lg:-ml-32 transform hover:scale-105 transition-all'>
             <img 
               src={plan_your_lesson}
               alt="PlanYourLessonImage"
-              className='object-contain w-full max-w-[280px] sm:max-w-none'
+              className='object-contain w-full max-w-[200px] sm:max-w-[240px] lg:max-w-none'
             />
           </div>
         </div>
