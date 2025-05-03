@@ -53,6 +53,7 @@ import React from 'react'
 
 
 
+
 const CourseCard = ({ cardData, currentCard, setCurrentCard }) => {
   const isActive = currentCard === cardData.heading;
   
@@ -82,12 +83,13 @@ const CourseCard = ({ cardData, currentCard, setCurrentCard }) => {
         </div>
 
         {/* Metadata Footer */}
-        <div className="mt-auto flex gap-3">
+        <div className="mt-auto flex gap-3 px-3 py-1">
           <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
             isActive
               ? 'bg-yellow-100 text-richblack-900'
               : 'bg-richblack-700 text-yellow-100'
           }`}>
+            
             {cardData.level}
           </span>
 
