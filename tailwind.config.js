@@ -1,7 +1,9 @@
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: ["./src/**/*.{js,jsx,ts,tsx}",
+   "./public/index.html", 
+  ],
   theme: {
     fontFamily: {
       inter: ["Inter", "sans-serif"],
@@ -130,7 +132,11 @@ module.exports = {
         maxContent: "1260px",
         maxContentTab: "650px"
       },
+       backgroundImage: {
+        'home': "url('../assets/Images/bghome.svg')",
+      }
     },
   },
   plugins: [],
 };
+

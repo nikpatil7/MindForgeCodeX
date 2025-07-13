@@ -59,7 +59,7 @@ const ExploreMore = () => {
       {/* Cards Section - Modified without horizontal scroll */}
       <div className="w-full mt-10">
         {/* Mobile: Stacked cards */}
-        <div className="lg:hidden flex flex-col items-center gap-6 px-4">
+        <div className="lg:hidden flex flex-col items-center gap-6 px-4 mb-10">
           {courses.map((element, index) => (
             <div key={index} className="w-full max-w-[360px]">
               <CourseCard
