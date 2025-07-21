@@ -23,13 +23,13 @@ const courseSchema = new mongoose.Schema({
       ref: 'Section',
     }
   ],
-  ratingAndReview: [
+  ratingAndReviews: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'RatingAndReview',
     }
   ],
-  Price: {
+  price: {
     type: Number,
     required: true,
   },
@@ -63,6 +63,7 @@ const courseSchema = new mongoose.Schema({
 		type: String,
 		enum: ["Draft", "Published"],
 	},
+   createdAt: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model('Course', courseSchema);

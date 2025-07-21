@@ -49,7 +49,7 @@ exports.capturePayment = async (req, res) => {
   }
 
   //order create
-  const amount = course.Price;
+  const amount = course.price;
   const currency = "INR";
 
   const options = {
@@ -124,7 +124,9 @@ exports.verifySignature = async (req, res) => {
       //find the student andadd the course to their list enrolled courses me
       const enrolledStudent = await User.findOneAndUpdate(
         { _id: userId },
-        { $push: { courses: courseId } },
+        { $push: { courses: courseId,
+          
+         } },
         { new: true }
       );
 

@@ -24,8 +24,8 @@ import { ACCOUNT_TYPE } from "./utils/constants";
 import AddCourse from "./components/core/Dashboard/AddCourse";
 import MyCourses from "./components/core/Dashboard/MyCourses";
 import EditCourse from "./components/core/Dashboard/EditCourse";
-// import Catalog from "./pages/Catalog";
-// import CourseDetails from "./pages/CourseDetails";
+import Catalog from "./pages/Catalog";
+import CourseDetails from "./pages/CourseDetails";
 import ViewCourse from "./pages/ViewCourse";
 import VideoDetails from "./components/core/ViewCourse/VideoDetails";
 import Instructor from "./components/core/Dashboard/InstructorDashboard/Instructor";
@@ -54,6 +54,11 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="courses/:courseId" element={<CourseDetails />} />
+        <Route path="catalog/:catalogName" element={<Catalog />} />
+        <Route path="/about" element={<About />} />
+
+        <Route path="/contact" element={<Contact />} />
 
         <Route
           path="signup"
@@ -100,9 +105,7 @@ function App() {
           }
         />
 
-        <Route path="/about" element={<About />} />
-
-        <Route path="/contact" element={<Contact />} />
+        
 
         <Route
           element={
