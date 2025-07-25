@@ -37,24 +37,42 @@ exports.createCategory = async (req, res) => {
 
 // get all Categories
 
+// exports.showAllCategories = async (req, res) => {
+//   try {
+//     const allCategories = await Category.find(
+//       {},
+//       { name: true, description: true }
+//     );
+//     // console.log("Categories found:", allCategories);
+    
+//     res
+//       .status(200)
+//       .json({
+//         success: true,
+//         data: allCategories,
+//         message: "All Categories fetched",
+//       });
+//   } catch(error) {
+//     console.log(error);
+//     res.status(500).json({ success: false, message: error.message });
+//   }
+// };
 exports.showAllCategories = async (req, res) => {
   try {
-    const allCategories = await Category.find(
-      {},
-      { name: true, description: true }
-    );
-    res
-      .status(200)
-      .json({
-        success: true,
-        data: allCategories,
-        message: "All Categories fetched",
-      });
-  } catch(error) {
-    console.log(error);
-    res.status(500).json({ success: false, message: error.message });
+    // const allCategories = await Category.find()
+    const allCategories = await Category.find().populate("courses");
+    console.log(allCategories);
+    res.status(200).json({
+      success: true,
+      data: allCategories,
+    })
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    })
   }
-};
+}
 
 // exports.categoryPageDetails = async (req, res) => {
 //   try {
@@ -166,6 +184,9 @@ exports.categoryPageDetails = async (req, res) => {
       .populate({
         path: "courses",
         match: { status: "Published" },
+        populate:({
+          path: "instructor",
+        })
       })
       .exec()
     const allCourses = allCategories.flatMap((category) => category.courses)
