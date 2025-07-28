@@ -17,6 +17,7 @@ import PrivateRoute from "./components/core/Auth/PrivateRoute";
 import Error from "./pages/Error"
 import Settings from "./components/core/Dashboard/Settings";
 import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses";
+import PurchaseHistory from "./components/core/Dashboard/PurchaseHistory";
 import { useDispatch, useSelector } from "react-redux";
  
 import Cart from "./components/core/Dashboard/Cart";
@@ -39,13 +40,13 @@ function App() {
   // const { user } = useSelector((state) => state.profile);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { token, user } = useSelector((state) => state.auth);
+  const { token, user, loading } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (token && !user) {
+    if (token && !user && !loading) {
       dispatch(getUserDetails(token, navigate));
     }
-  }, [token, user, dispatch, navigate]);
+  }, [token, user, loading, dispatch, navigate]);
 //   if (token && !user) {
 //   // While user is being fetched
 //   return <div className="text-white text-center mt-10">Loading...</div>
@@ -53,6 +54,19 @@ function App() {
 
 
   console.log("User: ", user);
+  
+  // Show loading while fetching user data
+  if (token && !user && loading) {
+    return (
+      <div className="w-screen min-h-screen bg-richblack-900 flex items-center justify-center">
+        <div className="text-white text-center">
+          <div className="spinner mb-4"></div>
+          <p>Loading user data...</p>
+        </div>
+      </div>
+    );
+  }
+  
   return (
     <div className="w-screen min-h-screen bg-richblack-900">
       <Navbar />
@@ -129,7 +143,7 @@ function App() {
               />
               <Route
                 path="dashboard/purchase-history"
-                element={<EnrolledCourses />}
+                element={<PurchaseHistory />}
               />
             </>
           )}

@@ -1,6 +1,7 @@
 const { instance } = require("../config/razorpay");
 const Course = require("../models/Course");
 const User = require("../models/User");
+const Payment = require("../models/Payment");
 const mailSender = require("../utils/mailSender");
 const {
   courseEnrollmentEmail,
@@ -101,7 +102,21 @@ exports.verifyPayment = async (req, res) => {
     .digest("hex")
 
   if (expectedSignature === razorpay_signature) {
-    await enrollStudents(courses, userId, res)
+    const paymentData = {
+      razorpay_order_id,
+      razorpay_payment_id,
+      amount: 0 // We'll need to get this from the order
+    }
+    
+    // Get the order details to get the amount
+    try {
+      const order = await instance.orders.fetch(razorpay_order_id)
+      paymentData.amount = order.amount
+    } catch (error) {
+      console.log("Error fetching order details:", error)
+    }
+    
+    await enrollStudents(courses, userId, res, paymentData)
     return res.status(200).json({ success: true, message: "Payment Verified" })
   }
 
@@ -142,7 +157,7 @@ exports.sendPaymentSuccessEmail = async (req, res) => {
 }
 
 // enroll the student in the courses
-const enrollStudents = async (courses, userId, res) => {
+const enrollStudents = async (courses, userId, res, paymentData = null) => {
   if (!courses || !userId) {
     return res
       .status(400)
@@ -166,10 +181,11 @@ const enrollStudents = async (courses, userId, res) => {
       console.log("Updated course: ", enrolledCourse)
 
       const courseProgress = await CourseProgress.create({
-        courseID: courseId,
+        courseId: courseId,
         userId: userId,
         completedVideos: [],
       })
+      
       // Find the student and add the course to their list of enrolled courses
       const enrolledStudent = await User.findByIdAndUpdate(
         userId,
@@ -183,6 +199,44 @@ const enrollStudents = async (courses, userId, res) => {
       )
 
       console.log("Enrolled student: ", enrolledStudent)
+      
+      // Save payment record if payment data is provided
+      if (paymentData) {
+        // Get instructor details
+        let instructorName = "Unknown Instructor"
+        if (enrolledCourse.instructor) {
+          if (typeof enrolledCourse.instructor === 'object') {
+            instructorName = `${enrolledCourse.instructor.firstName || ''} ${enrolledCourse.instructor.lastName || ''}`.trim()
+          } else {
+            // If instructor is just an ID, we'll populate it later
+            instructorName = "Instructor"
+          }
+        }
+        
+        const paymentRecord = await Payment.create({
+          userId: userId,
+          courseId: courseId,
+          orderId: paymentData.razorpay_order_id,
+          paymentId: paymentData.razorpay_payment_id,
+          amount: paymentData.amount / 100, // Convert from paise to rupees
+          currency: 'INR',
+          status: 'Completed',
+          paymentMethod: 'Razorpay',
+          transactionDate: new Date(),
+          courseDetails: {
+            courseName: enrolledCourse.courseName,
+            instructorName: instructorName,
+            thumbnail: enrolledCourse.thumbnail,
+          },
+          userDetails: {
+            firstName: enrolledStudent.firstName,
+            lastName: enrolledStudent.lastName,
+            email: enrolledStudent.email,
+          },
+        })
+        console.log("Payment record saved: ", paymentRecord)
+      }
+      
       // Send an email notification to the enrolled student
       const emailResponse = await mailSender(
         enrolledStudent.email,
@@ -294,6 +348,65 @@ const enrollStudents = async (courses, userId, res) => {
 //   const digest = shasum.digest("hex");
 
 //   if (signature === digest) {
+
+// Get user's purchase history
+exports.getPurchaseHistory = async (req, res) => {
+  const userId = req.user.id
+
+  try {
+    const payments = await Payment.find({ userId })
+      .populate({
+        path: 'courseId',
+        select: 'courseName thumbnail instructor',
+        populate: {
+          path: 'instructor',
+          select: 'firstName lastName'
+        }
+      })
+      .sort({ transactionDate: -1 })
+      .limit(50) // Limit to last 50 transactions
+
+    const formattedPayments = payments.map(payment => {
+      // Use populated course data if available, otherwise fall back to stored data
+      const courseDetails = payment.courseId ? {
+        courseName: payment.courseId.courseName || payment.courseDetails?.courseName,
+        instructorName: payment.courseId.instructor ? 
+          `${payment.courseId.instructor.firstName} ${payment.courseId.instructor.lastName}` : 
+          payment.courseDetails?.instructorName,
+        thumbnail: payment.courseId.thumbnail || payment.courseDetails?.thumbnail,
+      } : payment.courseDetails
+
+      return {
+        _id: payment._id,
+        courseId: payment.courseId?._id || payment.courseId,
+        orderId: payment.orderId,
+        paymentId: payment.paymentId,
+        amount: payment.amount,
+        currency: payment.currency,
+        status: payment.status,
+        paymentMethod: payment.paymentMethod,
+        transactionDate: payment.transactionDate,
+        courseDetails: courseDetails,
+        userDetails: payment.userDetails,
+        createdAt: payment.createdAt,
+        updatedAt: payment.updatedAt,
+      }
+    })
+
+    return res.status(200).json({
+      success: true,
+      data: formattedPayments,
+      message: "Purchase history fetched successfully"
+    })
+  } catch (error) {
+    console.error("Error fetching purchase history:", error)
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch purchase history",
+      error: error.message
+    })
+  }
+}
 //     console.log("Payment is Authorised");
 
 //     const { courseId, userId } = req.body.payload.payment.entity.notes;
