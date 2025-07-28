@@ -1,4 +1,4 @@
-const Tag = require("../models/Tag");
+const Tag = require("../models/tags");
 
 exports.createTag = async (req, res) => {
   try {
@@ -42,7 +42,7 @@ exports.showAllTags = async (req, res) => {
     const allTags = await Tag.find({},{name:true, description:true}); 
     res.status(200).json({success:true, data:allTags, message:"All tags fetched"});
   }
-  catch{
+  catch(error){
     console.log(error);
     res.status(500).json({success:false, message:error.message});
   }

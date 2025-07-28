@@ -452,6 +452,8 @@ exports.getEnrolledCourses = async (req, res) => {
     
     console.log("User details:", userDetails)
     console.log("User courses:", userDetails?.courses)
+
+    
     
     if (!userDetails) {
       return res.status(400).json({

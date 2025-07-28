@@ -9,9 +9,11 @@ const app = express();
 
 const userRoutes = require("./routes/User");
 const profileRoutes = require("./routes/Profile");
+const contactRoutes = require("./routes/Contact");
 
 const paymentRoutes = require("./routes/Payments");
 const courseRoutes = require("./routes/Course");
+const tagRoutes = require("./routes/Tags");
 
 const database = require("./config/database");
 const cookieParser = require("cookie-parser");
@@ -100,8 +102,10 @@ cloudinaryConnect();
 //routes
 app.use("/api/v1/auth", userRoutes);
 app.use("/api/v1/profile", profileRoutes);
+app.use("/api/v1/reach", contactRoutes);
 app.use("/api/v1/course", courseRoutes);
 app.use("/api/v1/payment",paymentRoutes);
+app.use("/api/v1/tags", tagRoutes);
 
 //def route
 app.get("/",(req,res)=>{
