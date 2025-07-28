@@ -4,8 +4,8 @@ require('dotenv').config({ path: './server/.env' });
 const express = require("express");
 const app = express();
 
-const fs = require('fs');
-const path = require('path');
+// const fs = require('fs');
+// const path = require('path');
 
 const userRoutes = require("./routes/User");
 const profileRoutes = require("./routes/Profile");
@@ -73,20 +73,25 @@ app.use(cors({
 
 // File upload middleware configuration
 // Create tmp directory if it doesn't exist
-const tmpDir = path.join(__dirname, 'tmp');
-if (!fs.existsSync(tmpDir)){
-    fs.mkdirSync(tmpDir);
-}
+// const tmpDir = path.join(__dirname, 'tmp');
+// if (!fs.existsSync(tmpDir)){
+//     fs.mkdirSync(tmpDir);
+// }
 
 // Configure file upload after tmp directory creation
+// app.use(fileUpload({
+//   useTempFiles: true,
+//   tempFileDir: tmpDir,
+//   createParentPath: true,
+//   limits: { 
+//     fileSize: 50 * 1024 * 1024 
+//   },
+//   abortOnLimit: true
+// }));
 app.use(fileUpload({
+  limits: { fileSize: 50 * 1024 * 1024 }, // 100 MB
   useTempFiles: true,
-  tempFileDir: tmpDir,
-  createParentPath: true,
-  limits: { 
-    fileSize: 50 * 1024 * 1024 
-  },
-  abortOnLimit: true
+  tempFileDir: '/tmp/'
 }));
 
 //cloudinary connection

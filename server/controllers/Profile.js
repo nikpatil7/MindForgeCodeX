@@ -432,6 +432,8 @@ exports.updateDisplayPicture = async (req, res) => {
 exports.getEnrolledCourses = async (req, res) => {
   try {
     const userId = req.user.id
+    console.log("Getting enrolled courses for user:", userId)
+    
     const userDetails = await User.findOne({
       _id: userId,
     })
@@ -447,10 +449,14 @@ exports.getEnrolledCourses = async (req, res) => {
           .exec()
       // .populate("courses")
       // .exec()
+    
+    console.log("User details:", userDetails)
+    console.log("User courses:", userDetails?.courses)
+    
     if (!userDetails) {
       return res.status(400).json({
         success: false,
-        message: `Could not find user with id: ${userDetails}`,
+        message: `Could not find user with id: ${userId}`,
       })
     }
     return res.status(200).json({
@@ -458,6 +464,7 @@ exports.getEnrolledCourses = async (req, res) => {
       data: userDetails.courses,
     })
   } catch (error) {
+    console.log("Error in getEnrolledCourses:", error)
     return res.status(500).json({
       success: false,
       message: error.message,
@@ -468,7 +475,9 @@ exports.getEnrolledCourses = async (req, res) => {
 // instructor dashboard
 exports.instructorDashboard = async (req, res) => {
     try {
-      const courseDetails = await Course.find({ instructor: req.existingUser.id })
+      // const courseDetails = await Course.find({ instructor: req.existingUser.id })
+      const courseDetails = await Course.find({ instructor: req.user.id })
+
   
       const courseData = courseDetails.map((course) => {
         const totalStudentsEnrolled = course.studentsEnrolled.length

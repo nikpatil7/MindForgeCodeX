@@ -134,7 +134,9 @@
 //new code
 const Section = require("../models/Section")
 const SubSection = require("../models/Subsection")
-const { uploadVideoToCloudinary } = require("../utils/imageUploader");
+// const { uploadVideoToCloudinary } = require("../utils/imageUploader");
+const { uploadImageToCloudinary } = require("../utils/imageUploader")
+
 
 // exports.createSubSection = async (req, res) => {
 //   try {
@@ -233,10 +235,10 @@ exports.createSubSection = async (req, res) => {
     }
 
     // Upload video to cloudinary
-    const uploadDetails = await uploadVideoToCloudinary(video, process.env.FOLDER_NAME);
-    if (!uploadDetails) {
-      throw new Error("Failed to upload video");
-    }
+    const uploadDetails = await uploadImageToCloudinary(
+      video,
+      process.env.FOLDER_NAME
+    )
 
     console.log(uploadDetails)
 
@@ -276,7 +278,7 @@ exports.createSubSection = async (req, res) => {
 exports.updateSubSection = async (req, res) => {
   try {
     const { title, description, subSectionId, sectionId } = req.body;
-    const video = req.files?.videoFile;
+    const videoFile = req.files?.videoFile;
 
     // Validate input
     if (!subSectionId || !sectionId) {
@@ -294,8 +296,8 @@ exports.updateSubSection = async (req, res) => {
     };
 
     // Handle video upload if present
-    if (video) {
-      const uploadDetails = await uploadVideoToCloudinary(video, process.env.FOLDER_NAME);
+    if (videoFile) {
+      const uploadDetails = await uploadImageToCloudinary(videoFile, process.env.FOLDER_NAME);
       updateData.videoUrl = uploadDetails.secure_url;
       updateData.timeDuration = `${uploadDetails.duration}`
     }

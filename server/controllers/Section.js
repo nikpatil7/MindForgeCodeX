@@ -33,7 +33,7 @@ exports.createSection = async (req, res) => {
       path: "courseContent",
       populate: [{
         path: "subSection",
-        select: "title description timeDuration videoUrl"
+        
       }]
     })
     .populate("instructor")

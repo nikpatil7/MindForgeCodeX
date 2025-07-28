@@ -17,12 +17,15 @@ const courseSchema = new mongoose.Schema({
   whatYouWillLearn: {
     type: String,
   },
-  courseContent: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Section',
-    }
-  ],
+  courseContent: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Section',
+      }
+    ],
+    default: [] //default value is an empty array
+  },
   ratingAndReviews: [
     {
       type: mongoose.Schema.Types.ObjectId,

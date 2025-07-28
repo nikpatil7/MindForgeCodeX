@@ -46,6 +46,10 @@ function App() {
       dispatch(getUserDetails(token, navigate));
     }
   }, [token, user, dispatch, navigate]);
+//   if (token && !user) {
+//   // While user is being fetched
+//   return <div className="text-white text-center mt-10">Loading...</div>
+// }
 
 
   console.log("User: ", user);
@@ -105,8 +109,6 @@ function App() {
           }
         />
 
-        
-
         <Route
           element={
             <PrivateRoute>
@@ -125,6 +127,10 @@ function App() {
                 path="dashboard/enrolled-courses"
                 element={<EnrolledCourses />}
               />
+              <Route
+                path="dashboard/purchase-history"
+                element={<EnrolledCourses />}
+              />
             </>
           )}
 
@@ -141,24 +147,22 @@ function App() {
           )}
         </Route>
 
-          <Route element={
-        <PrivateRoute>
-          <ViewCourse />
-        </PrivateRoute>
-      }>
-
-      {
-        user?.accountType === ACCOUNT_TYPE.STUDENT && (
-          <>
-          <Route 
-            path="view-course/:courseId/section/:sectionId/sub-section/:subSectionId"
-            element={<VideoDetails />}
-          />
-          </>
-        )
-      }
-
-      </Route>
+        <Route
+          element={
+            <PrivateRoute>
+              <ViewCourse />
+            </PrivateRoute>
+          }
+        >
+          {user?.accountType === ACCOUNT_TYPE.STUDENT && (
+            <>
+              <Route
+                path="view-course/:courseId/section/:sectionId/sub-section/:subSectionId"
+                element={<VideoDetails />}
+              />
+            </>
+          )}
+        </Route>
 
         <Route path="*" element={<Error />} />
       </Routes>

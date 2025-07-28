@@ -20,3 +20,18 @@
   0% { transform: rotate(0deg);}
   100% { transform: rotate(360deg);}
 }
+
+/* Review Slider Styles */
+.review-swiper .swiper-pagination-bullet {
+  background: #facc15;
+  opacity: 0.5;
+}
+
+.review-swiper .swiper-pagination-bullet-active {
+  opacity: 1;
+  background: #facc15;
+}
+
+.review-swiper .swiper-slide {
+  height: auto;
+}

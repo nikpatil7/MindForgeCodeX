@@ -3,13 +3,14 @@ import { Link } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
 import HighlightText from "../components/core/HomePage/HighlightText";
 import CTAButton from "../components/core/HomePage/Button";
-import Banner from "../assets/Images/banner.mp4";
+import Banner from "../assets/Images/bannerNew.mp4";
 import CodeBlocks from "../components/core/HomePage/CodeBlocks";
 import Footer from "../components/Common/Footer";
 import TimelineSection from "../components/core/HomePage/TimelineSection";
 import LearningLanguageSection from "../components/core/HomePage/LearningLanguageSection";
 import InstructorSection from "../components/core/HomePage/InstructorSection";
 import ExploreMore from "../components/core/HomePage/ExploreMore";
+import ReviewSlider from "../components/core/HomePage/ReviewSlider";
 
 const Home = () => {
   return (
@@ -181,6 +182,7 @@ const Home = () => {
         <h2 className="text-center text-2xl sm:text-3xl lg:text-4xl font-semibold mt-8 sm:mt-10">
           Reviews from Other Learners
         </h2>
+        <ReviewSlider />
       </div>
       
       {/* Footer */}

@@ -89,8 +89,8 @@ router.delete("/deleteCourse", deleteCourse)
 
 router.post("/updateCourseProgress", auth, isStudent, updateCourseProgress);
 
-// Delete a Course
-router.delete("/deleteCourse", deleteCourse)
+// // Delete a Course
+// router.delete("/deleteCourse", deleteCourse)
 
 // ********************************************************************************************************
 //                                      Category routes (Only by Admin)

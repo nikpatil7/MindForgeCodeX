@@ -209,13 +209,14 @@ exports.getCourseDetails = async (req, res) => {
     const { courseId } = req.body;
     
     //find course details
-    const courseDetails = await Course.find({ _id: courseId })
+    const courseDetails = await Course.findOne({ _id: courseId })
       .populate({
         path: "instructor",
         populate: { path: "additionalDetails" },
       })
       .populate("category")
       .populate("ratingAndReviews")
+      .populate("studentsEnrolled")
       .populate({
         path: "courseContent",
         populate: { path: "subSection" },
@@ -236,11 +237,25 @@ exports.getCourseDetails = async (req, res) => {
       courseDetails.instructions = JSON.parse(courseDetails.instructions);
     }
 
+    // Calculate total duration
+    let totalDurationInSeconds = 0
+    courseDetails.courseContent.forEach((content) => {
+      content.subSection.forEach((subSection) => {
+        const timeDurationInSeconds = parseInt(subSection.timeDuration)
+        totalDurationInSeconds += timeDurationInSeconds
+      })
+    })
+
+    const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
+
     //return response
     return res.status(200).json({
         success:true,
         message:"Course Details fetched successfully",
-        data:courseDetails,
+        data: {
+          courseDetails: courseDetails,
+          totalDuration: totalDuration
+        },
     })
 
   } catch (error) {
@@ -484,7 +499,7 @@ exports.deleteCourse = async (req, res) => {
     }
 
     // Unenroll students from the course
-    const studentsEnrolled = course.studentsEnroled
+    const studentsEnrolled = course.studentsEnrolled
     for (const studentId of studentsEnrolled) {
       await User.findByIdAndUpdate(studentId, {
         $pull: { courses: courseId },
