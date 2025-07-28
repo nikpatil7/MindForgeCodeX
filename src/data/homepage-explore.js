@@ -1,116 +1,116 @@
 export const HomePageExplore = [
     {
-        tag: 'Free',
+        tag: 'Free Courses',
         courses : [
             {
-                heading : "Learn HTML",
-                description : "This course covers the basic concepts of HTML including creating and structuring web pages, adding text, links, images, and more.",
+                heading : "Web Development Fundamentals",
+                description : "Master the basics of HTML, CSS, and JavaScript to build modern, responsive websites from scratch.",
                 level : 'Beginner',
-                lessionNumber : 6
+                lessionNumber : 12
             },
             {
-                heading : "Learn CSS",
-                description : "This course explores advanced topics in HTML5 and CSS3, including animations, transitions, and layout techniques",
+                heading : "Python for Beginners",
+                description : "Learn Python programming from the ground up with hands-on projects and real-world applications.",
                 level : 'Beginner',
-                lessionNumber : 6
+                lessionNumber : 15
             },
             {
-                heading : "Responsive Web design",
-                description : "This course teaches responsive web design techniques, allowing web pages to adapt to different devices and screen sizes",
-                level : 'Beginner',
-                lessionNumber : 6
+                heading : "Data Science Essentials",
+                description : "Introduction to data analysis, visualization, and machine learning concepts with practical examples.",
+                level : 'Intermediate',
+                lessionNumber : 18
             },
         ]
     },
     {
-        tag: 'New to coding',
+        tag: 'New to Programming',
         courses : [
             {
-                heading : "HTML",
-                description : "This course covers the basic concepts of HTML including creating and structuring web pages, adding text, links, images, and more.",
+                heading : "JavaScript Fundamentals",
+                description : "Start your coding journey with JavaScript - the language that powers the modern web.",
                 level : 'Beginner',
-                lessionNumber : 6
+                lessionNumber : 10
             },
             {
-                heading : "CSS",
-                description : "This course explores advanced topics in HTML5 and CSS3, including animations, transitions, and layout techniques",
+                heading : "React.js Basics",
+                description : "Build interactive user interfaces with React.js and learn component-based development.",
                 level : 'Beginner',
-                lessionNumber : 6
+                lessionNumber : 14
             },
             {
-                heading : "Responsive ",
-                description : "This course teaches responsive web design techniques, allowing web pages to adapt to different devices and screen sizes",
-                level : 'Beginner',
-                lessionNumber : 6
+                heading : "Node.js Backend Development",
+                description : "Create robust server-side applications with Node.js and Express framework.",
+                level : 'Intermediate',
+                lessionNumber : 16
             },
         ]
     },
     {
-        tag: 'Most popular',
+        tag: 'Most Popular',
         courses : [
             {
-                heading : "Java",
-                description : "This course covers the basic concepts of HTML including creating and structuring web pages, adding text, links, images, and more.",
-                level : 'Beginner',
-                lessionNumber : 6
+                heading : "Full Stack Web Development",
+                description : "Complete course covering frontend, backend, and database technologies for modern web applications.",
+                level : 'Advanced',
+                lessionNumber : 25
             },
             {
-                heading : "Python",
-                description : "This course explores advanced topics in HTML5 and CSS3, including animations, transitions, and layout techniques",
-                level : 'Beginner',
-                lessionNumber : 6
+                heading : "Machine Learning with Python",
+                description : "Dive into AI and machine learning algorithms with practical implementations and real-world projects.",
+                level : 'Advanced',
+                lessionNumber : 22
             },
             {
-                heading : "SCSS",
-                description : "This course teaches responsive web design techniques, allowing web pages to adapt to different devices and screen sizes",
-                level : 'Beginner',
-                lessionNumber : 6
+                heading : "DevOps & Cloud Computing",
+                description : "Learn deployment strategies, containerization, and cloud services for scalable applications.",
+                level : 'Intermediate',
+                lessionNumber : 20
             },
         ]
     },
     {
-        tag: 'Skills paths',
+        tag: 'Specialized Skills',
         courses : [
             {
-                heading : "Flask",
-                description : "This course covers the basic concepts of HTML including creating and structuring web pages, adding text, links, images, and more.",
-                level : 'Beginner',
-                lessionNumber : 6
+                heading : "Mobile App Development",
+                description : "Build cross-platform mobile applications using React Native and modern development tools.",
+                level : 'Intermediate',
+                lessionNumber : 18
             },
             {
-                heading : "Django",
-                description : "This course explores advanced topics in HTML5 and CSS3, including animations, transitions, and layout techniques",
-                level : 'Beginner',
-                lessionNumber : 6
+                heading : "Cybersecurity Fundamentals",
+                description : "Learn essential security concepts, ethical hacking, and protecting digital assets.",
+                level : 'Intermediate',
+                lessionNumber : 16
             },
             {
-                heading : "Fast API",
-                description : "This course teaches responsive web design techniques, allowing web pages to adapt to different devices and screen sizes",
-                level : 'Beginner',
-                lessionNumber : 6
+                heading : "Blockchain Development",
+                description : "Explore blockchain technology and build decentralized applications with smart contracts.",
+                level : 'Advanced',
+                lessionNumber : 20
             },
         ]
     },
     {
-        tag: 'Career paths',
+        tag: 'Career Tracks',
         courses : [
             {
-                heading : "Next.js",
-                description : "This course covers the basic concepts of HTML including creating and structuring web pages, adding text, links, images, and more.",
-                level : 'Beginner',
-                lessionNumber : 6
+                heading : "Software Engineering Path",
+                description : "Comprehensive curriculum covering all aspects of software development and engineering practices.",
+                level : 'Advanced',
+                lessionNumber : 30
             },
             {
-                heading : "Nuxt.js",
-                description : "This course explores advanced topics in HTML5 and CSS3, including animations, transitions, and layout techniques",
-                level : 'Beginner',
-                lessionNumber : 6
+                heading : "Data Scientist Track",
+                description : "Complete path to becoming a data scientist with statistics, ML, and data engineering skills.",
+                level : 'Advanced',
+                lessionNumber : 28
             },
             {
-                heading : "Sanity",
-                description : "This course teaches responsive web design techniques, allowing web pages to adapt to different devices and screen sizes",
-                level : 'Beginner',
-                lessionNumber : 6
+                heading : "Product Management",
+                description : "Learn product strategy, user research, and agile methodologies for tech product development.",
+                level : 'Intermediate',
+                lessionNumber : 24
             },
         ]
     },

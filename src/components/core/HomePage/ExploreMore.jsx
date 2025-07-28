@@ -4,23 +4,30 @@ import HighlightText from './HighlightText';
 import CourseCard from './CourseCard';
 
 const tabsName = [
-  "Free",
-  "New to coding",
-  "Most popular",
-  "Skills paths",
-  "Career paths", 
+  "Free Courses",
+  "New to Programming",
+  "Most Popular",
+  "Specialized Skills",
+  "Career Tracks", 
 ];
 
 const ExploreMore = () => {
   const [currentTab, setCurrentTab] = useState(tabsName[0]);
-  const [courses, setCourses] = useState(HomePageExplore[0].courses);
-  const [currentCard, setCurrentCard] = useState(HomePageExplore[0].courses[0].heading);
+  const [courses, setCourses] = useState(HomePageExplore[0]?.courses || []);
+  const [currentCard, setCurrentCard] = useState(HomePageExplore[0]?.courses?.[0]?.heading || '');
 
   const setMyCards = (value) => {
     setCurrentTab(value);
     const result = HomePageExplore.filter((course) => course.tag === value);
-    setCourses(result[0].courses);
-    setCurrentCard(result[0].courses[0].heading);
+    
+    if (result.length > 0 && result[0].courses && result[0].courses.length > 0) {
+      setCourses(result[0].courses);
+      setCurrentCard(result[0].courses[0].heading);
+    } else {
+      // Fallback to first available courses if the selected tab has no courses
+      setCourses(HomePageExplore[0].courses);
+      setCurrentCard(HomePageExplore[0].courses[0].heading);
+    }
   }
 
   return (
@@ -58,32 +65,40 @@ const ExploreMore = () => {
 
       {/* Cards Section - Modified without horizontal scroll */}
       <div className="w-full mt-10">
-        {/* Mobile: Stacked cards */}
-        <div className="lg:hidden flex flex-col items-center gap-6 px-4 mb-10">
-          {courses.map((element, index) => (
-            <div key={index} className="w-full max-w-[360px]">
-              <CourseCard
-                cardData={element}
-                currentCard={currentCard}
-                setCurrentCard={setCurrentCard}
-              />
+        {courses.length > 0 ? (
+          <>
+            {/* Mobile: Stacked cards */}
+            <div className="lg:hidden flex flex-col items-center gap-6 px-4 mb-10">
+              {courses.map((element, index) => (
+                <div key={index} className="w-full max-w-[360px]">
+                  <CourseCard
+                    cardData={element}
+                    currentCard={currentCard}
+                    setCurrentCard={setCurrentCard}
+                  />
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
 
-        {/* Desktop: Original horizontal layout */}
-        <div className="hidden lg:block h-[150px]">
-          <div className="absolute flex flex-row gap-8 justify-between w-full px-4 mt-5  right-0 left-0 mr-auto ml-auto">
-            {courses.map((element, index) => (
-              <CourseCard
-                key={index}
-                cardData={element}
-                currentCard={currentCard}
-                setCurrentCard={setCurrentCard}
-              />
-            ))}
+            {/* Desktop: Original horizontal layout */}
+            <div className="hidden lg:block h-[150px]">
+              <div className="absolute flex flex-row gap-8 justify-between w-full px-4 mt-5  right-0 left-0 mr-auto ml-auto">
+                {courses.map((element, index) => (
+                  <CourseCard
+                    key={index}
+                    cardData={element}
+                    currentCard={currentCard}
+                    setCurrentCard={setCurrentCard}
+                  />
+                ))}
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="text-center text-richblack-300 py-8">
+            <p>No courses available at the moment.</p>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
