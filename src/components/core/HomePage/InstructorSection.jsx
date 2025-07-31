@@ -1,5 +1,5 @@
 import React from 'react'
-import Instructor from "../../../assets/Images/Instructor.png"
+import Instructor from "../../../assets/images2/instructorImg.jpg"
 import HighlightText from './HighlightText'
 import CTAButton from "../HomePage/Button"
 import { FaArrowRight } from 'react-icons/fa'
@@ -11,11 +11,14 @@ const InstructorSection = () => {
         
         {/* Image Section - First in DOM but appears second on mobile due to flex-col */}
         <div className="w-full lg:w-[50%] max-w-[500px] lg:max-w-none mx-auto order-2 lg:order-1">
+          <div className="relative">
           <img
             src={Instructor}
             alt="Instructor teaching online"
-            className="shadow-white w-full h-auto object-cover aspect-[3/4] sm:aspect-auto"
+            className="relative z-10 w-full h-auto object-cover aspect-[3/4] sm:aspect-video rounded-lg shadow-xl"
           />
+          <div className="absolute -bottom-3 -right-3 -z-0 h-full w-full rounded-lg bg-gradient-to-br from-blue-400/20 to-pink-400/20" />
+        </div>
           
           {/* Button - Only visible on mobile */}
           <div className='lg:hidden w-full mt-6 text-center'>

@@ -1,12 +1,5 @@
-/* .spinner {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  border: 9px solid #f1f2ff;
-  animation: spinner-bulqg1 0.8s infinite linear alternate,
-    spinner-oaa3wk 1.6s infinite linear;
-} */
- .spinner {
+
+.spinner {
   width: 48px;
   height: 48px;
   border: 6px solid #f3f3f3;
@@ -14,12 +7,12 @@
   border-radius: 50%;
   animation: spin 1s linear infinite;
   display: inline-block;
-}
+} 
 
 @keyframes spin {
   0% { transform: rotate(0deg);}
   100% { transform: rotate(360deg);}
-}
+} 
 
 /* Review Slider Styles */
 .review-swiper .swiper-pagination-bullet {
