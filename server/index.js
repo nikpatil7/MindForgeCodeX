@@ -51,7 +51,8 @@ app.use(cookieParser());
 app.options('*', cors());
 
 const allowedOrigins = [
-  "https://mindforge-app-puce.vercel.app",
+  process.env.CORS_ORIGIN,
+  "https://mindforge-app-six.vercel.app",
   "http://localhost:3000", // for local testing
 ];
 
