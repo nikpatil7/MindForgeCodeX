@@ -29,6 +29,7 @@ const PORT = process.env.PORT || 4000;
 
 //database connect
 database.connect();
+
 //middlewares
 // app.use(express.json());
 // app.use(cookieParser());
@@ -38,32 +39,37 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(cookieParser());
 
 
-
-// app.use(
-//   cors({
-//     origin:"http://localhost:3000",
-//     credentials:true,
-//   })
-// ) original code
-
-//claude code
-
-// app.use(
-//   cors({
-//     origin: ["http://localhost:3000"],
-//     credentials: true,
-//     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-//     allowedHeaders: ["Content-Type", "Authorization"],
-//   })
-// );
 // CORS configuration
-app.use(cors({
-  origin: process.env.CORS_ORIGIN || "http://localhost:3000",
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'timeout'],
-}));
+// app.use(cors({
+//   origin: process.env.CORS_ORIGIN || "http://localhost:3000",
+//   credentials: true,
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//   allowedHeaders: ['Content-Type', 'Authorization', 'timeout'],
+// }));
 
+// Handle preflight requests
+app.options('*', cors());
+
+const allowedOrigins = [
+  "https://mindforge-app-puce.vercel.app",
+  "http://localhost:3000", // for local testing
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // needed if you are using cookies or sessions
+     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-csrf-token'],
+    exposedHeaders: ['*', 'Authorization']
+  })
+);
 
 // app.use(
 //   fileUpload({
@@ -114,17 +120,6 @@ app.get("/",(req,res)=>{
     message:'Your server is up and running....'
   });
 });
-
-//new code
-// Global error handler
-// app.use((err, req, res, next) => {
-//   console.error('Error:', err);
-//   res.status(err.status || 500).json({
-//     success: false,
-//     message: err.message || 'Internal Server Error',
-//     // error: process.env.NODE_ENV === 'development' ? err : {}
-//   });
-// });
 
 
 app.listen(PORT,()=>{
