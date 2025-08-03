@@ -240,8 +240,6 @@ exports.createSubSection = async (req, res) => {
       process.env.FOLDER_NAME
     )
 
-    console.log(uploadDetails)
-
     // Create subsection
     const SubSectionDetails = await SubSection.create({
        title: title,
@@ -267,7 +265,6 @@ exports.createSubSection = async (req, res) => {
     });
 
   } catch (error) {
-    console.error("Error creating subsection:", error);
     return res.status(500).json({
       success: false,
       message: error.message || "Failed to create subsection"
@@ -312,10 +309,6 @@ exports.updateSubSection = async (req, res) => {
     // Get updated section with populated data
     const updatedSection = await Section.findById(sectionId).populate("subSection");
 
-    console.log("updated section", updatedSection)
-
-
-
     return res.status(200).json({
       success: true,
       message: "Subsection updated successfully",
@@ -323,7 +316,6 @@ exports.updateSubSection = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error)
     return res.status(500).json({
       success: false,
       message: "An error occurred while updating the section",
@@ -370,7 +362,6 @@ exports.deleteSubSection = async (req, res) => {
     });
 
   } catch (error) {
-    console.error("Error deleting subsection:", error);
     return res.status(500).json({
       success: false,
       message: "Failed to delete subsection",

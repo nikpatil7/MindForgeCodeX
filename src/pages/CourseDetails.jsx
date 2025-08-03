@@ -25,7 +25,6 @@ function CourseDetails() {
 
   // Getting courseId from url parameter
   const { courseId } = useParams()
-  // console.log(`course id: ${courseId}`)
 
   // Declear a state to save the course details
   const [response, setResponse] = useState(null)
@@ -35,8 +34,6 @@ function CourseDetails() {
     (async () => {
       try {
         const res = await fetchCourseDetails(courseId)
-        console.log("course details res: ", res)
-        console.log("course details data structure: ", res?.data)
         setResponse(res)
       } catch (error) {
         console.log("Could not fetch Course Details")
@@ -44,24 +41,15 @@ function CourseDetails() {
     })()
   }, [courseId])
 
-  // console.log("response: ", response)
-
   // Calculating Avg Review count
   const [avgReviewCount, setAvgReviewCount] = useState(0)
   useEffect(() => {
     const count = GetAvgRating(response?.data?.courseDetails?.ratingAndReviews || [])
     setAvgReviewCount(count)
   }, [response])
-  // console.log("avgReviewCount: ", avgReviewCount)
 
-  console.log("CourseDetails response:", response)
-  console.log("CourseDetails course data:", response?.data?.courseDetails)
-
-  // // Collapse all
-  // const [collapse, setCollapse] = useState("")
   const [isActive, setIsActive] = useState(Array(0))
   const handleActive = (id) => {
-    // console.log("called", id)
     setIsActive(
       !isActive.includes(id)
         ? isActive.concat([id])
@@ -86,16 +74,12 @@ function CourseDetails() {
       </div>
     )
   }
-  // if (!response.success) {
-  //   return <Error />
-  // }
+  
   if (!response.success || !response.data?.courseDetails) {
-    console.log("Course details not found, showing error page")
     return <Error />
   }
 
   const courseData = response.data.courseDetails
-  console.log("Course data for rendering:", courseData)
 
   const {
     _id: course_id,
@@ -127,7 +111,6 @@ function CourseDetails() {
   }
 
   if (paymentLoading) {
-    // console.log("payment loading")
     return (
       <div className="grid min-h-[calc(100vh-3.5rem)] place-items-center">
         <div className="spinner"></div>
@@ -194,6 +177,7 @@ function CourseDetails() {
           <div className="right-[1rem] top-[60px] mx-auto hidden min-h-[600px] w-1/3 max-w-[410px] translate-y-24 md:translate-y-0 lg:absolute  lg:block">
             <CourseDetailsCard
               course={courseData}
+              totalDuration={response.data?.totalDuration}
               setConfirmationModal={setConfirmationModal}
               handleBuyCourse={handleBuyCourse}
             />

@@ -66,7 +66,8 @@ exports.auth = async (req, res, next) => {
       console.log("Decoded token:", decode);
 
       // Fetch complete user from database
-      const user = await User.findById(decode.user.id).select('-password');
+      const userId = decode.user?.id || decode.id;
+      const user = await User.findById(userId).select('-password');
       
       if (!user) {
         return res.status(401).json({
@@ -110,7 +111,6 @@ exports.isStudent = async (req, res, next) => {
     
     }
     catch(error){
-        console.log(error);
         return res.status(500).json({ success: false, message: 'User role cannot be verified, please try again' });
     }
 }
@@ -125,7 +125,6 @@ exports.isInstructor = async (req, res, next) => {
   
   }
   catch(error){
-      console.log(error);
       return res.status(500).json({ success: false, message: 'User role cannot be verified, please try again' });
   }
 }
@@ -140,7 +139,6 @@ exports.isAdmin = async (req, res, next) => {
   
   }
   catch(error){
-      console.log(error);
       return res.status(500).json({ success: false, message: 'User role cannot be verified, please try again' });
   }
 }

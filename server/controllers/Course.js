@@ -13,13 +13,6 @@ const { convertSecondsToDuration } = require("../utils/secToDuration")
 // Function to create a new course
 exports.createCourse = async (req, res) => {
   try {
-
-    // // Debug: Log incoming request
-    // console.log("Request Body:", req.body);
-    // console.log("Request Files:", req.files);
-
-
-
     // Get user ID from request object
     const userId = req.user.id;
     //fetch data
@@ -30,7 +23,6 @@ exports.createCourse = async (req, res) => {
       price,
       tag: _tag,
       category,
-      // status,
       instructions: _instructions,
     } = req.body;
 
@@ -38,15 +30,11 @@ exports.createCourse = async (req, res) => {
     const tag = JSON.parse(_tag)
     const instructions = JSON.parse(_instructions)
 
-      console.log("tag", tag)
-    console.log("instructions", instructions)
-
     let status = req.body.status; //as we are assigning status each time do not keep it const 
 
     //get thumbnail
     const thumbnail = req.files.thumbnailImage;
 
-    
     if (
       !courseName ||
       !courseDescription ||
@@ -59,28 +47,22 @@ exports.createCourse = async (req, res) => {
       return res
         .status(400)
         .json({ success: false, message: "Please provide all the details" });
-    }  //original code
-
-    
-
+    }
 
     if (!status || status === undefined) {
       status = "Draft";
     }
 
     //check instructor
-
     const instructorDetails = await User.findById(userId, {
       accountType: "Instructor",
     });
-    console.log(instructorDetails);
-
-    //TODO: verify that userId and InstructorDetails._id are same or different
 
     if (!instructorDetails) {
-      return res
-        .status(400)
-        .json({ success: false, message:"Only instructors can create courses" });
+      return res.status(404).json({
+        success: false,
+        message: "Instructor Details not found",
+      });
     }
 
     // //check given tag is valid or not
@@ -99,7 +81,7 @@ exports.createCourse = async (req, res) => {
         message: "Category Details Not Found",
       });
     }
-     console.log(categoryDetails);
+    //  console.log(categoryDetails);
 
     //upload image to cloudinary
     const thumbnailImage = await uploadImageToCloudinary(
@@ -259,7 +241,7 @@ exports.getCourseDetails = async (req, res) => {
     })
 
   } catch (error) {
-    console.log(error);
+    console.error("Course details error:", error);
     return res.status(500).json({
         success:false,
         message:error.message,
@@ -426,13 +408,6 @@ exports.getFullCourseDetails = async (req, res) => {
       })
     }
 
-    // if (courseDetails.status === "Draft") {
-    //   return res.status(403).json({
-    //     success: false,
-    //     message: `Accessing a draft course is forbidden`,
-    //   });
-    // }
-
     let totalDurationInSeconds = 0
     courseDetails.courseContent.forEach((content) => {
       content.subSection.forEach((subSection) => {
@@ -467,15 +442,52 @@ exports.getInstructorCourses = async (req, res) => {
     // Get the instructor ID from the authenticated user or request body
     const instructorId = req.user.id
 
-    // Find all courses belonging to the instructor
+    // Find all courses belonging to the instructor with populated content
     const instructorCourses = await Course.find({
       instructor: instructorId,
-    }).sort({ createdAt: -1 })
+    })
+      .populate({
+        path: "courseContent",
+        populate: {
+          path: "subSection",
+        },
+      })
+      .sort({ createdAt: -1 })
 
-    // Return the instructor's courses
+    // Calculate duration for each course
+    const coursesWithDuration = instructorCourses.map((course) => {
+      try {
+        // Calculate total duration
+        let totalDurationInSeconds = 0
+        if (course.courseContent && Array.isArray(course.courseContent)) {
+          course.courseContent.forEach((content) => {
+            if (content.subSection && Array.isArray(content.subSection)) {
+              content.subSection.forEach((subSection) => {
+                const timeDurationInSeconds = parseInt(subSection.timeDuration) || 0
+                totalDurationInSeconds += timeDurationInSeconds
+              })
+            }
+          })
+        }
+        const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
+
+        return {
+          ...course.toObject(),
+          totalDuration,
+        }
+      } catch (error) {
+        console.error(`Error processing instructor course ${course._id}:`, error)
+        return {
+          ...course.toObject(),
+          totalDuration: "N/A",
+        }
+      }
+    })
+
+    // Return the instructor's courses with duration
     res.status(200).json({
       success: true,
-      data: instructorCourses,
+      data: coursesWithDuration,
     })
   } catch (error) {
     console.error(error)

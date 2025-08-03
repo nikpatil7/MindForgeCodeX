@@ -1,6 +1,6 @@
 {
-  "name": "react-tailwind-css-starter-pack",
-  "version": "0.1.0",
+  "name": "mindForgeCodeX",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@ramonak/react-progress-bar": "^5.4.0",
@@ -31,11 +31,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/thepranaygupta/react-tailwind-css-starter-pack.git"
+    "url": "git+https://github.com/nikpatil7/MindForgeCodeX/.git"
   },
-  "author": "Pranay Gupta",
+  "author": "Nikhil Patil",
   "bugs": {
-    "url": "https://github.com/thepranaygupta/react-tailwind-css-starter-pack/issues"
+    "url": "https://github.com/nikpatil7/MindForgeCodeX/issues"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -67,6 +67,5 @@
   },
   "devDependencies": {
     "tailwindcss": "^3.2.7"
-  },
-  "proxy": "http://localhost:4000"
+  }
 }

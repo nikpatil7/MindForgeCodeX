@@ -1,8 +1,9 @@
 const Profile = require("../models/Profile");
 const User = require("../models/User");
 const Course = require("../models/Course");
-// const CourseProgress = require('../models/CourseProgress');
+const CourseProgress = require('../models/CourseProgress');
 const {uploadImageToCloudinary} = require("../utils/imageUploader");
+const {convertSecondsToDuration} = require("../utils/secToDuration");
 const mongoose = require('mongoose');
 
 exports.updateProfile = async (req, res) => { 
@@ -447,23 +448,69 @@ exports.getEnrolledCourses = async (req, res) => {
             },
           })
           .exec()
-      // .populate("courses")
-      // .exec()
     
     console.log("User details:", userDetails)
     console.log("User courses:", userDetails?.courses)
 
-    
-    
     if (!userDetails) {
       return res.status(400).json({
         success: false,
         message: `Could not find user with id: ${userId}`,
       })
     }
+
+    // Calculate duration and progress for each course
+    const coursesWithDurationAndProgress = await Promise.all(
+      userDetails.courses.map(async (course) => {
+        try {
+          // Calculate total duration
+          let totalDurationInSeconds = 0
+          if (course.courseContent && Array.isArray(course.courseContent)) {
+            course.courseContent.forEach((content) => {
+              if (content.subSection && Array.isArray(content.subSection)) {
+                content.subSection.forEach((subSection) => {
+                  const timeDurationInSeconds = parseInt(subSection.timeDuration) || 0
+                  totalDurationInSeconds += timeDurationInSeconds
+                })
+              }
+            })
+          }
+          const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
+
+          // Get course progress
+          const courseProgress = await CourseProgress.findOne({
+            courseId: course._id,
+            userId: userId,
+          })
+
+          // Calculate progress percentage
+          let progressPercentage = 0
+          if (courseProgress && courseProgress.completedVideos) {
+            const totalVideos = course.courseContent.reduce((total, section) => {
+              return total + (section.subSection ? section.subSection.length : 0)
+            }, 0)
+            progressPercentage = totalVideos > 0 ? Math.round((courseProgress.completedVideos.length / totalVideos) * 100) : 0
+          }
+
+          return {
+            ...course.toObject(),
+            totalDuration,
+            progressPercentage,
+          }
+        } catch (error) {
+          console.error(`Error processing course ${course._id}:`, error)
+          return {
+            ...course.toObject(),
+            totalDuration: "N/A",
+            progressPercentage: 0,
+          }
+        }
+      })
+    )
+
     return res.status(200).json({
       success: true,
-      data: userDetails.courses,
+      data: coursesWithDurationAndProgress,
     })
   } catch (error) {
     console.log("Error in getEnrolledCourses:", error)

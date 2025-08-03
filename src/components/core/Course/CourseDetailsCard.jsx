@@ -16,14 +16,11 @@ import { ACCOUNT_TYPE } from "../../../utils/constants"
 //   "Certificate of completion",
 // ]
 
-function CourseDetailsCard({ course, setConfirmationModal, handleBuyCourse }) {
+function CourseDetailsCard({ course, totalDuration, setConfirmationModal, handleBuyCourse }) {
   const { user } = useSelector((state) => state.profile)
   const { token } = useSelector((state) => state.auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-
-  console.log("CourseDetailsCard received course:", course)
-  console.log("Course studentsEnrolled:", course?.studentsEnrolled)
 
   // If course is not available, don't render the component
   if (!course) {
@@ -60,8 +57,6 @@ function CourseDetailsCard({ course, setConfirmationModal, handleBuyCourse }) {
     })
   }
 
-  console.log("Student already enrolled ", course?.studentsEnrolled, user?._id)
-
   // Check if user is enrolled in the course
   const isUserEnrolled = user && course?.studentsEnrolled?.includes(user?._id)
 
@@ -81,6 +76,14 @@ function CourseDetailsCard({ course, setConfirmationModal, handleBuyCourse }) {
           <div className="space-x-3 pb-4 text-3xl font-semibold">
             Rs. {CurrentPrice}
           </div>
+          
+          {/* Course Duration */}
+          {totalDuration && (
+            <div className="mb-4 text-sm text-richblack-200">
+              <span className="font-medium">Duration:</span> {totalDuration}
+            </div>
+          )}
+          
           <div className="flex flex-col gap-4">
             <button
               className="yellowButton"
