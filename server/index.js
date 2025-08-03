@@ -48,7 +48,7 @@ app.use(cookieParser());
 // }));
 
 // Handle preflight requests
-app.options('*', cors());
+// app.options('*', cors());
 
 const allowedOrigins = [
   process.env.CORS_ORIGIN,
