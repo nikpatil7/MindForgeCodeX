@@ -1,7 +1,15 @@
 const nodeMailer = require('nodemailer');
+// const { toast } = require('react-hot-toast');
+
 
 const mailSender = async (email, title, body) => {
   try{
+
+    // if (!email) {
+    //   toast.error("❌ No recipient email provided!");
+    //   throw new Error("Recipient email is missing.");
+    // }
+
     let transporter = nodeMailer.createTransport({
       host: process.env.MAIL_HOST,
       auth: {
@@ -11,7 +19,7 @@ const mailSender = async (email, title, body) => {
     })
 
     let info = await transporter.sendMail({
-      from: 'MindForge || MindForge by Nikhil Patil',
+      from:`"MindForge" <${process.env.MAIL_USER}>`,
       to: `${email}`,
       subject: `${title}`,
       html: `${body}`,

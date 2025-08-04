@@ -1,97 +1,53 @@
-exports.contactUsEmail = (
-  email,
-  firstname,
-  lastname,
-  message,
-  phoneNo,
-  countrycode
-) => {
-  return `<!DOCTYPE html>
-  <html>
-  
-  <head>
+const contactUsEmail = (email, firstname, lastname, message, phoneNo, countrycode) => {
+  return `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
       <meta charset="UTF-8">
-      <title>Contact Form Confirmation</title>
-      <style>
-          body {
-              background-color: #ffffff;
-              font-family: Arial, sans-serif;
-              font-size: 16px;
-              line-height: 1.4;
-              color: #333333;
-              margin: 0;
-              padding: 0;
-          }
-  
-  
-          .container {
-              max-width: 600px;
-              margin: 0 auto;
-              padding: 20px;
-              text-align: center;
-          }
-  
-          .logo {
-              max-width: 200px;
-              margin-bottom: 20px;
-          }
-  
-          .message {
-              font-size: 18px;
-              font-weight: bold;
-              margin-bottom: 20px;
-          }
-  
-          .body {
-              font-size: 16px;
-              margin-bottom: 20px;
-          }
-  
-          .cta {
-              display: inline-block;
-              padding: 10px 20px;
-              background-color: #FFD60A;
-              color: #000000;
-              text-decoration: none;
-              border-radius: 5px;
-              font-size: 16px;
-              font-weight: bold;
-              margin-top: 20px;
-          }
-  
-          .support {
-              font-size: 14px;
-              color: #999999;
-              margin-top: 20px;
-          }
-  
-          .highlight {
-              font-weight: bold;
-          }
-      </style>
-  
-  </head>
-  
-  <body>
-      <div class="container">
-          <a href="https://mindforge-edtech-project.vercel.app"><img class="logo"
-                  src="https://i.ibb.co/7Xyj3PC/logo.png" alt="MindForge Logo"></a>
-          <div class="message">Contact Form Confirmation</div>
-          <div class="body">
-              <p>Dear ${firstname} ${lastname},</p>
-              <p>Thank you for contacting us. We have received your message and will respond to you as soon as possible.
-              </p>
-              <p>Here are the details you provided:</p>
-              <p>Name: ${firstname} ${lastname}</p>
-              <p>Email: ${email}</p>
-              <p>Phone Number: ${phoneNo}</p>
-              <p>Message: ${message}</p>
-              <p>We appreciate your interest and will get back to you shortly. </p>
-          </div>
-          <div class="support">If you have any further questions or need immediate assistance, please feel free to reach
-              out to us at <a href="mailto:info@mindforge.com">info@mindforge.com</a>. We are here to help!</div>
-      </div>
-  </body>
-  
-  </html>`
-}
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>MindForge Contact Form Confirmation</title>
+    </head>
+    <body style="margin: 0; padding: 0; background-color: #f4f4f4;">
+      <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="padding: 20px;">
+        <tr>
+          <td align="center">
+            <table width="600" style="background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.05); font-family: 'Segoe UI', sans-serif;">
+              <tr>
+                <td style="background-color: #343a40; color: #ffffff; padding: 30px 20px; text-align: center;">
+                  <h2 style="margin: 0; font-size: 24px;">Thank You for Contacting Us!</h2>
+                  <p style="margin: 5px 0 0;">We've received your message 🎉</p>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 30px 20px;">
+                  <h3 style="color: #333333; margin-bottom: 15px;">Submitted Details</h3>
+                  <p style="color: #555;"><strong>Name:</strong> ${firstname} ${lastname}</p>
+                  <p style="color: #555;"><strong>Email:</strong> ${email}</p>
+                  <p style="color: #555;"><strong>Phone:</strong> ${countrycode} ${phoneNo}</p>
+
+                  <div style="margin-top: 25px;">
+                    <h3 style="color: #333333; margin-bottom: 10px;">Your Message</h3>
+                    <p style="background-color: #f8f9fa; padding: 15px; border-left: 4px solid #007bff; color: #555; line-height: 1.6;">
+                      ${message}
+                    </p>
+                  </div>
+
+                  <p style="margin-top: 30px; font-size: 14px; color: #888;">We’ll get back to you as soon as possible. Meanwhile, stay curious and keep innovating 🚀</p>
+                </td>
+              </tr>
+              <tr>
+                <td style="background-color: #f1f1f1; padding: 20px; text-align: center;">
+                  <p style="color: #777; font-size: 13px;">MindForge • Contact Form Confirmation</p>
+                  <p style="color: #aaa; font-size: 12px;">Submitted on: ${new Date().toLocaleString()}</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </body>
+    </html>
+  `;
+};
+
+module.exports = { contactUsEmail };

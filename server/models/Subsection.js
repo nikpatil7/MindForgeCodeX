@@ -7,4 +7,4 @@ const SubSectionSchema = new mongoose.Schema({
 	videoUrl: { type: String },
 });
 
-module.exports = mongoose.model('Subsection', SubSectionSchema);
+module.exports = mongoose.model('SubSection', SubSectionSchema);

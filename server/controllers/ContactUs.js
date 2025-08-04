@@ -1,26 +1,36 @@
-const { contactUsEmail } = require("../mail/templates/contactFormRes")
-const mailSender = require("../utils/mailSender")
+const { contactUsEmail } = require("../mail/templates/contactFormRes");
+const { adminContactAlert } = require("../mail/templates/adminContactAlert");
+const mailSender = require("../utils/mailSender");
 
 exports.contactUsController = async (req, res) => {
-  const { email, firstname, lastname, message, phoneNo, countrycode } = req.body
-  console.log(req.body)
+  const { email, firstname, lastname, message, phoneNo, countrycode } = req.body;
+
   try {
-    const emailRes = await mailSender(
+    // Send confirmation to user
+    await mailSender(
       email,
-      "Your Data send successfully",
+      "Thanks for contacting us - MindForge",
       contactUsEmail(email, firstname, lastname, message, phoneNo, countrycode)
-    )
-    console.log("Email Res ", emailRes)
+    );
+
+    // Send alert to admin
+    const adminEmail = process.env.ADMIN_EMAIL;
+    // console.log("Sending admin email to:", adminEmail);
+    await mailSender(
+      adminEmail,
+      `New Contact Form Query from ${firstname} ${lastname}`,
+      adminContactAlert(email, firstname, lastname, message, phoneNo, countrycode)
+    );
+
     return res.json({
       success: true,
-      message: "Email send successfully",
-    })
+      message: "Your message has been sent. You'll receive a confirmation email shortly.",
+    });
   } catch (error) {
-    console.log("Error", error)
-    console.log("Error message :", error.message)
+    console.log("Error", error);
     return res.json({
       success: false,
-      message: "Something went wrong...",
-    })
+      message: "Something went wrong. Please try again later.",
+    });
   }
-}
+};
