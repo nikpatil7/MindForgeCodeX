@@ -2,49 +2,6 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const User = require('../models/User');
 
-
-//auth
-// exports.auth = async (req, res, next) => {
-//     try {
-//       //get token from header
-//       const token =
-//         req.cookies.token ||
-//         req.body.token ||
-//         req.header("Authorization")?.replace("Bearer", "");
-
-//          //if token missing, then return response
-//          if(!token) {
-//           return res.status(401).json({
-//               success:false,
-//               message:'TOken is missing',
-//           });
-//       }
-
-//       //verify token
-//       try {
-//         const decode = jwt.verify(token, process.env.JWT_SECRET);
-//         console.log("Decoded token:", decode);
-//         req.user = decode;
-
-//       } catch (error) {
-//         //verification - issue
-//         console.log(error);
-//         return res
-//           .status(401)
-//           .json({ success: false, message: "Invalid Token" });
-//       }
-//       next();
-
-//     } catch (error) {
-//         console.log(error);
-//         return res.status(401).json({
-//             success:false,
-//             message:'Something went wrong while validating the token', });
-//     }
-// }
-
-// note: auth middleware after testing, attaching the complete user object to req.user
-
 exports.auth = async (req, res, next) => {
   try {
     // Get token from multiple sources

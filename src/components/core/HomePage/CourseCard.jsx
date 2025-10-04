@@ -1,59 +1,5 @@
 import React from 'react'
 
-// const CourseCard = ({ cardData, currentCard, setCurrentCard }) => {
-//   const isActive = currentCard === cardData.heading
-
-//   return (
-//     <div>
-// <div
-//       className={`w-full max-w-[360px] rounded-lg p-6 transition-all duration-200 cursor-pointer ${
-//         isActive
-//           ? 'bg-richblack-800 border-2 border-yellow-200 scale-105 '
-//           : 'bg-richblack-900 hover:bg-richblack-800 border-2 border-transparent'
-//       }`}
-
-//       onClick={() => setCurrentCard(cardData.heading)}
-//     >
-//       <div className="flex flex-col gap-3">
-//         {/* Course Heading */}
-//         <h3 className="text-xl font-semibold text-richblack-5">
-//           {cardData.heading}
-//         </h3>
-
-//         {/* Course Description */}
-//         <p className="text-richblack-200 text-sm leading-6">
-//           {cardData.description}
-//         </p>
-
-//         {/* Metadata Section */}
-//         <div className="flex justify-between items-center mt-4">
-//           {/* Level and Lessons */}
-//           <div className="flex gap-2 text-xs font-medium">
-//             <span className="px-2 py-1 bg-richblack-700 rounded-full text-yellow-100">
-//               {cardData.level}
-//             </span>
-//             <span className="px-2 py-1 bg-richblack-700 rounded-full text-blue-100">
-//               {cardData.lessionNumber} Lessons
-//             </span>
-//           </div>
-
-//           {/* Active Indicator
-//           {isActive && (
-//             <div className="text-xs font-bold text-yellow-200 animate-pulse">
-//               SELECTED
-//             </div>
-//           )} */}
-          
-//         </div>
-//       </div>
-//     </div>
-//   </div>
-//   )
-// }
-
-
-
-
 const CourseCard = ({ cardData, currentCard, setCurrentCard }) => {
   const isActive = currentCard === cardData.heading;
   
