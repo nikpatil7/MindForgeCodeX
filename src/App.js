@@ -1,18 +1,18 @@
 import "./App.css";
 import {Route, Routes, useNavigate } from "react-router-dom";
-import Home from "./pages/Home"
+// import Home from "./pages/Home"
 import Navbar from "./components/Common/Navbar"
 import OpenRoute from "./components/core/Auth/OpenRoute"
 
-import Login from "./pages/Login"
-import Signup from "./pages/Signup"
-import ForgotPassword from "./pages/ForgotPassword";
-import UpdatePassword from "./pages/UpdatePassword";
-import VerifyEmail from "./pages/VerifyEmail";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
+// import Login from "./pages/Login"
+// import Signup from "./pages/Signup"
+// import ForgotPassword from "./pages/ForgotPassword";
+// import UpdatePassword from "./pages/UpdatePassword";
+// import VerifyEmail from "./pages/VerifyEmail";
+// import About from "./pages/About";
+// import Contact from "./pages/Contact";
 import MyProfile from "./components/core/Dashboard/MyProfile";
-import Dashboard from "./pages/Dashboard";
+// import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./components/core/Auth/PrivateRoute";
 import Error from "./pages/Error"
 import Settings from "./components/core/Dashboard/Settings";
@@ -25,18 +25,45 @@ import { ACCOUNT_TYPE } from "./utils/constants";
 import AddCourse from "./components/core/Dashboard/AddCourse";
 import MyCourses from "./components/core/Dashboard/MyCourses";
 import EditCourse from "./components/core/Dashboard/EditCourse";
-import Catalog from "./pages/Catalog";
-import CourseDetails from "./pages/CourseDetails";
-import ViewCourse from "./pages/ViewCourse";
+// import Catalog from "./pages/Catalog";
+// import CourseDetails from "./pages/CourseDetails";
+// import ViewCourse from "./pages/ViewCourse";
 import VideoDetails from "./components/core/ViewCourse/VideoDetails";
 import Instructor from "./components/core/Dashboard/InstructorDashboard/Instructor";
 import { useEffect } from "react";
 import { getUserDetails } from "./services/operations/profileAPI";
 
+import React, { Suspense, lazy } from "react";
+
+// Lazy load pages in groups
+
+const Home = lazy(() => import("./pages/Home"));
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
+const Catalog = lazy(() => import("./pages/Catalog"));
+const CourseDetails = lazy(() => import("./pages/CourseDetails"));
+const ViewCourse = lazy(() => import("./pages/ViewCourse"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+
+// Auth group (login, signup, password reset, email verify)
+const AuthPages = {
+  Login: lazy(() => import("./pages/Login")),
+  Signup: lazy(() => import("./pages/Signup")),
+  ForgotPassword: lazy(() => import("./pages/ForgotPassword")),
+  UpdatePassword: lazy(() => import("./pages/UpdatePassword")),
+  VerifyEmail: lazy(() => import("./pages/VerifyEmail")),
+};
+
+// Loading component
+const PageLoader = () => (
+  <div className="grid min-h-[calc(100vh-3.5rem)] place-items-center">
+    <div className="spinner"></div>
+  </div>
+);
+
+
 function App() {
-  // const dispatch = useDispatch();
-  // const navigate = useNavigate();
-  
+    
   // const { user } = useSelector((state) => state.profile);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -54,6 +81,12 @@ function App() {
 
 
   console.log("User: ", user);
+
+    // Preload critical routes in background
+  useEffect(() => {
+    import("./pages/Dashboard");
+    import("./pages/Catalog");
+  }, []);
   
   // Show loading while fetching user data
   if (token && !user && loading) {
@@ -70,6 +103,7 @@ function App() {
   return (
     <div className="w-screen min-h-screen bg-richblack-900">
       <Navbar />
+      <Suspense fallback={<PageLoader />}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="courses/:courseId" element={<CourseDetails />} />
@@ -82,7 +116,7 @@ function App() {
           path="signup"
           element={
             <OpenRoute>
-              <Signup />
+              <AuthPages.Signup />
             </OpenRoute>
           }
         />
@@ -91,7 +125,7 @@ function App() {
           path="login"
           element={
             <OpenRoute>
-              <Login />
+              <AuthPages.Login />
             </OpenRoute>
           }
         />
@@ -100,7 +134,7 @@ function App() {
           path="forgot-password"
           element={
             <OpenRoute>
-              <ForgotPassword />
+              <AuthPages.ForgotPassword />
             </OpenRoute>
           }
         />
@@ -109,7 +143,7 @@ function App() {
           path="update-password/:id"
           element={
             <OpenRoute>
-              <UpdatePassword />
+              <AuthPages.UpdatePassword />
             </OpenRoute>
           }
         />
@@ -118,7 +152,7 @@ function App() {
           path="verify-email"
           element={
             <OpenRoute>
-              <VerifyEmail />
+              <AuthPages.VerifyEmail />
             </OpenRoute>
           }
         />
@@ -180,6 +214,7 @@ function App() {
 
         <Route path="*" element={<Error />} />
       </Routes>
+      </Suspense>
     </div>
   );
 }
