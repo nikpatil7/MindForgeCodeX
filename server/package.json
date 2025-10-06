@@ -8,7 +8,13 @@
     "seed": "node sampleData.js",
     "build": "echo 'No build step required for Node.js'"
   },
-  "keywords": ["nodejs", "express", "mongodb", "e-learning", "api"],
+  "keywords": [
+    "nodejs",
+    "express",
+    "mongodb",
+    "e-learning",
+    "api"
+  ],
   "author": "Nikhil Patil",
   "license": "ISC",
   "type": "commonjs",
@@ -17,6 +23,8 @@
     "npm": ">=8.0.0"
   },
   "dependencies": {
+    "@google/genai": "^1.22.0",
+    "@google/generative-ai": "^0.24.1",
     "bcrypt": "^5.1.1",
     "cloudinary": "^2.6.0",
     "cookie-parser": "^1.4.7",
@@ -27,9 +35,11 @@
     "express-fileupload": "^1.5.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.12.2",
+    "node-fetch": "^3.3.2",
     "node-schedule": "^2.1.1",
     "nodemailer": "^6.10.0",
     "nodemon": "^3.1.9",
+    "openai": "^6.1.0",
     "otp-generator": "^4.0.1",
     "razorpay": "^2.9.6"
   },

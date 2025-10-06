@@ -1,0 +1,149 @@
+.rootIcon {
+  position: fixed;
+  z-index: 9999;
+  width: 56px;
+  height: 56px;
+  border-radius: 28px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.24);
+  cursor: grab;
+  transition: left 180ms ease, top 180ms ease, box-shadow 180ms ease;
+}
+
+.dragging {
+  cursor: grabbing;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.32);
+}
+
+.chat {
+  position: fixed;
+  z-index: 9998;
+  width: 360px;
+  max-height: 420px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 20px 48px rgba(0,0,0,0.28);
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  font-family: Inter, system-ui, Arial, sans-serif;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 2px 8px 2px;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.row {
+  margin-bottom: 10px;
+}
+
+.bubble {
+  display: inline-block;
+  padding: 10px 12px;
+  border-radius: 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  max-width: 85%;
+  word-break: break-word;
+}
+
+.user {
+  text-align: right;
+}
+
+.userBubble {
+  background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+}
+
+.mentor {
+  text-align: left;
+}
+
+.mentorBubble {
+  background: #f9fafb;
+}
+
+.followUp {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 6px;
+}
+
+.composer {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.input {
+  flex: 1;
+  resize: none;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-family: inherit;
+}
+
+.sendBtn {
+  background: #111827;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .chat {
+    width: 300px;
+    max-height: 360px;
+  }
+}
+
+.followUpChip {
+  background: #e0e7ff;
+  border: none;
+  border-radius: 12px;
+  padding: 4px 8px;
+  font-size: 12px;
+  margin-top: 4px;
+  cursor: pointer;
+  transition: background 150ms;
+}
+.followUpChip:hover { background: #c7d2fe; }

@@ -32,6 +32,7 @@ import VideoDetails from "./components/core/ViewCourse/VideoDetails";
 import Instructor from "./components/core/Dashboard/InstructorDashboard/Instructor";
 import { useEffect } from "react";
 import { getUserDetails } from "./services/operations/profileAPI";
+import MiniMentorWidget from "./components/core/MiniMentorWidget";
 
 import React, { Suspense, lazy } from "react";
 
@@ -103,6 +104,7 @@ function App() {
   return (
     <div className="w-screen min-h-screen bg-richblack-900">
       <Navbar />
+      <MiniMentorWidget />
       <Suspense fallback={<PageLoader />}>
       <Routes>
         <Route path="/" element={<Home />} />
