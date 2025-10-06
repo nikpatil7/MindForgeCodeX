@@ -15,9 +15,9 @@ const paymentRoutes = require("./routes/Payments");
 const courseRoutes = require("./routes/Course");
 const tagRoutes = require("./routes/Tags");
 
-const mentorRoutes = require('./routes/mentor');
+// const mentorRoutes = require('./routes/mentor');
 // const mentorUnifiedRoutes = require('./routes/mentorUnified');
-// const openRouterMentorRoutes = require('./routes/openRouterMentor');
+const openRouterMentorRoutes = require('./routes/openRouterMentor');
 
 const database = require("./config/database");
 const cookieParser = require("cookie-parser");
@@ -118,8 +118,8 @@ app.use("/api/v1/course", courseRoutes);
 app.use("/api/v1/payment",paymentRoutes);
 app.use("/api/v1/tags", tagRoutes);
 //ai-mentor routes
-app.use('/api/v1/mentor', mentorRoutes);
-// app.use('/api/v1/openrouter-mentor', openRouterMentorRoutes);
+// app.use('/api/v1/mentor', mentorRoutes);
+app.use('/api/v1/openrouter-mentor', openRouterMentorRoutes);
 // app.use('/api/v1/unified-mentor', mentorUnifiedRoutes);
 
 //def route

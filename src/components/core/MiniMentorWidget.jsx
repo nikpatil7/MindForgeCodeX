@@ -75,7 +75,7 @@ export default function MiniMentorWidget() {
     
   try {
     
-      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/mentor`, {
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/openrouter-mentor`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: q })
